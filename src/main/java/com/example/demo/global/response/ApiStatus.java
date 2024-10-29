@@ -6,18 +6,6 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-/**
- * @packageName : com.curateme.claco.global.response
- * @fileName    : ApiStatus.java
- * @author      : 이 건
- * @date        : 2024.10.14
- * @author devkeon(devkeon123@gmail.com)
- * ===========================================================
- * DATE               AUTHOR        NOTE
- * -----------------------------------------------------------
- * 	2024.10.14   	   이 건        최초 생성
- * 	2024.10.15		   이 건		   로그인 및 멤버 관련 에러 추가
- */
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum ApiStatus {
