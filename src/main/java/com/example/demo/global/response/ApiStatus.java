@@ -21,6 +21,10 @@ public enum ApiStatus {
 	MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEM-001", "Member not found."),
 	MEMBER_NICKNAME_DUPLICATE(HttpStatus.CONFLICT, "MEM-009", "Nickname is duplicated. Try again."),
 
+	//게시물 에러
+	POST_NOT_FOUND(HttpStatus.NOT_FOUND, "POST-001", "Post not found."),
+	POST_NOT_AUTHOR(HttpStatus.FORBIDDEN, "POST-002", "You are not the author of this post."),
+
 	// 로그인 에러
 	ACCESS_TOKEN_NOT_FOUND(HttpStatus.BAD_REQUEST, "ACT-001", "AccessToken not found."),
 	REFRESH_TOKEN_NOT_FOUND(HttpStatus.BAD_REQUEST, "RFT-001", "RefreshToken not found."),
