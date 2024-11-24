@@ -6,6 +6,7 @@ import com.example.demo.hashtag.domain.PostHashtag;
 import com.example.demo.hashtag.domain.dto.HashtagResponseDto;
 import com.example.demo.hashtag.repository.PostHashtagRepository;
 import com.example.demo.post.domain.entity.Post;
+import com.example.demo.post.domain.postDto.PostResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,8 +41,8 @@ public class HashtagService {
         return popularHashtags;
     }
 
-    public Page<Post> getPostsByHashtag(String hashtagName, Pageable pageable){
+    public Page<PostResponseDto> getPostsByHashtag(String hashtagName, Pageable pageable){
         Page<Post> postsByHashtagName = postHashtagRepository.findPostsByHashtagName(hashtagName, pageable);
-        return postsByHashtagName;
+        return postsByHashtagName.map(post -> new PostResponseDto(post));
     }
 }

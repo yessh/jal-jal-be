@@ -7,7 +7,9 @@ import com.example.demo.hashtag.domain.PostHashtag;
 import com.example.demo.hashtag.repository.HashtagRepository;
 import com.example.demo.hashtag.repository.PostHashtagRepository;
 import com.example.demo.member.domain.entity.Member;
+import com.example.demo.member.repository.MemberRepository;
 import com.example.demo.post.domain.entity.Post;
+import com.example.demo.post.domain.postDto.PostResponseDto;
 import com.example.demo.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,15 +28,22 @@ public class PostService {
     private final PostRepository postRepository;
     private final HashtagRepository hashtagRepository;
     private final PostHashtagRepository postHashtagRepository;
+    private final MemberRepository memberRepository;
 
-    public Post createPost(String title, String content, Member author,
+    public PostResponseDto createPost(String title, String content, Long socialId,
                            Set<String> reqHashtags) {
+
+        Member author = memberRepository.findMemberBySocialId(socialId)
+                .orElseThrow(()-> new BusinessException(ApiStatus.MEMBER_NOT_FOUND));
+
         Post post = Post.builder()
                 .title(title)
                 .content(content)
                 .author(author)
+                .postHashtags(new HashSet<>())
                 .build();
 
+        post = postRepository.save(post);
         /**
          * 해시태그 부분
          */
@@ -48,7 +57,8 @@ public class PostService {
             post.addPostHashtag(postHashtag);
         }
 
-        return postRepository.save(post);
+        PostResponseDto postResponseDto = new PostResponseDto(post);
+        return postResponseDto;
     }
 
     public Post updatePost(Long postId, String title, String content, Member author, Set<String> reqHashtags) {
@@ -60,6 +70,7 @@ public class PostService {
 
         post.update(title, content);
 
+        post = postRepository.save(post);
         /**
          * 해시태그 추가,삭제
          */
@@ -92,8 +103,7 @@ public class PostService {
                 return false;
             });
         }
-        Post updatedPost = postRepository.save(post);
-        return updatedPost;
+        return postRepository.save(post);
     }
 
     @Transactional

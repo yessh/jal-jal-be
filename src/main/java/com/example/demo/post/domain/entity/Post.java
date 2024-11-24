@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import com.example.demo.member.domain.entity.Member;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -29,7 +30,7 @@ public class Post {
     private Member author;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true,  fetch = FetchType.EAGER)
-    private Set<PostHashtag> postHashtags;
+    private Set<PostHashtag> postHashtags = new HashSet<>();
 
     public void update(String title, String content) {
         this.title = title;

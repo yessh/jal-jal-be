@@ -5,6 +5,7 @@ import com.example.demo.hashtag.domain.Hashtag;
 import com.example.demo.hashtag.domain.dto.HashtagResponseDto;
 import com.example.demo.hashtag.service.HashtagService;
 import com.example.demo.post.domain.entity.Post;
+import com.example.demo.post.domain.postDto.PostResponseDto;
 import com.example.demo.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -31,12 +32,12 @@ public class HashtagController {
 
 
     @GetMapping("/{hashtagName}")
-    public ApiResponse<Page<Post>> getPostsByHashtag(@PathVariable String hashtagName,
-                                                     @RequestParam(defaultValue = "0") int page,
-                                                     @RequestParam(defaultValue = "10") int size) {
+    public ApiResponse<Page<PostResponseDto>> getPostsByHashtag(@PathVariable String hashtagName,
+                                                                @RequestParam(defaultValue = "0") int page,
+                                                                @RequestParam(defaultValue = "10") int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
 
-        Page<Post> postsByHashtag = hashtagService.getPostsByHashtag(hashtagName, pageRequest);
+        Page<PostResponseDto> postsByHashtag = hashtagService.getPostsByHashtag(hashtagName, pageRequest);
         return ApiResponse.ok(postsByHashtag);
     }
 }
